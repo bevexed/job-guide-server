@@ -163,9 +163,9 @@ export const listPage = (current, size, title, startTime, endTime,type) => {
 //
 // 例子:http://localhost:9091/course/isRecommend?id=266&isRecommend=false
 
-export const isRecommend = id => axios.request({
+export const isRecommend = (id,isRecommend) => axios.request({
   url: 'course/isRecommend',
-  params:{id},
+  params:{id,isRecommend},
   method:'GET'
 });
 

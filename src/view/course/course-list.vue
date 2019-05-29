@@ -23,7 +23,6 @@
                 <Select v-model="queryParam.status" clearable placeholder="全部">
                   <Option value="enabled">启用</Option>
                   <Option value="disabled">禁用</Option>
-                  <Option value="disabled">禁用</Option>
                 </Select>
               </Form-item>
             </Col>
@@ -44,14 +43,15 @@
   </div>
 </template>
 <script>
-import dayjs from 'dayjs'
-import Tables from '_c/common/tables'
-import CourseUpdateModal from '_c/course/course-update-modal'
-import CourseSaveModal from '_c/course/course-save-modal'
-import { mapActions } from 'vuex'
-import axios from '@/libs/api.request'
+  import dayjs from 'dayjs'
+  import Tables from '_c/common/tables'
+  import CourseUpdateModal from '_c/course/course-update-modal'
+  import CourseSaveModal from '_c/course/course-save-modal'
+  import {mapActions} from 'vuex'
+  import axios from '@/libs/api.request'
+  import {isRecommend} from "../../api/new";
 
-export default {
+  export default {
   name: 'course_list',
   components: {
     Tables, CourseUpdateModal, CourseSaveModal
@@ -110,7 +110,7 @@ export default {
         {
           title: '操作',
           align: 'center',
-          width: 110,
+          width: 200,
           render: (h, { row }) => {
             let statusBtn = null
             if (row.status === 'enabled') {
@@ -120,6 +120,30 @@ export default {
             }
             return h('div', [
               h('a', { on: { click: () => { this.onUpdateCourse(row) } } }, '编辑'),
+              h('Divider', {
+                props: {
+                  type: 'vertical'
+                }
+              }),
+              h('a', {
+                on: {
+                  click: () => {
+                    this.dois(row)
+                  }
+                }
+              }, '推荐'),
+              h('Divider', {
+                props: {
+                  type: 'vertical'
+                }
+              }),
+              h('a', {
+                on: {
+                  click: () => {
+                    this.dotis(row)
+                  }
+                }
+              }, '不推荐'),
               h('Divider', {
                 props: {
                   type: 'vertical'
@@ -143,6 +167,20 @@ export default {
     ...mapActions([
       'courseCategoryBigList'
     ]),
+    async dois(e) {
+      console.log(e);
+      let res = await isRecommend(e.id, true);
+      if (res.code === 200) {
+        this.$Message.success('推荐成功!')
+      }
+    },
+    async dotis(e) {
+      console.log(e);
+      let res = await isRecommend(e.id, false);
+      if (res.code === 200) {
+        this.$Message.success('取消推荐成功!')
+      }
+    },
     search () {
       this.reload = new Date().getTime()
     },
