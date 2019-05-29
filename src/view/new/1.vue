@@ -10,8 +10,8 @@
         <strong>{{ row.name }}</strong>
       </template>
       <template slot-scope="{ row, index }" slot="action">
-        <a>推荐到首页</a> &nbsp;
-        <a>置顶</a> &nbsp;
+        <a @click="doupdateIsHome(row)">推荐到首页</a> &nbsp;
+        <a @click="doupdateIsTop(row)">置顶</a> &nbsp;
         <Button size="small" icon="md-create" style="margin-right: 5px" @click="show(row)"></Button>
         <Button size="small" icon="md-trash" @click="doDeleteOne(row)"></Button>
       </template>
@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-  import {deleteInformation, deleteOne, listPage} from "../../api/new";
+  import {deleteInformation, deleteOne, listPage,updateIsTop,updateIsHome} from "../../api/new";
 
   export default {
     data() {
@@ -88,7 +88,7 @@
       },
 
       async getlist() {
-        const {current, size, title, startTime, endTime} = this
+        const {current, size, title, startTime, endTime} = this;
         let res = await listPage(current, size, title, startTime, endTime);
         this.data1 = res.data.records
         this.page = res.data.current;
@@ -131,6 +131,22 @@
         let res = await deleteOne(row.id);
         if (res.code === 200) {
           window.location.reload()
+        }
+      },
+
+      async doupdateIsTop(row) {
+        console.log(row.id);
+        let res = await updateIsTop(row.id);
+        if (res.code === 200) {
+          this.$Message.success(res.message);
+        }
+      },
+
+      async doupdateIsHome(row) {
+        console.log(row.id);
+        let res = await updateIsHome(row.id);
+        if (res.code === 200) {
+          this.$Message.success(res.message);
         }
       },
 

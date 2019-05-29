@@ -69,6 +69,13 @@ export const deleteOne = id => axios.request({
 // 参数:
 //   id--主键id                                                              必填
 //
+
+export const updateIsTop = id => axios.request({
+  url: 'information/updateIsTop',
+  params:{id},
+  method:'GET'
+});
+
 //
 // 5.推荐到首页
 // http://localhost:9091/information/updateIsHome
@@ -76,7 +83,13 @@ export const deleteOne = id => axios.request({
 // 参数:
 //   id--主键id                                                              必填
 //
-//
+
+export const updateIsHome = id => axios.request({
+  url: 'information/updateIsHome',
+  params:{id},
+  method:'GET'
+});
+
 //
 // 6.编辑资讯
 // http://localhost:9091/information/updateInformation
