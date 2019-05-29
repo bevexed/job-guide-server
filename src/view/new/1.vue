@@ -1,17 +1,19 @@
 <template>
   <div>
-    <Button @click="deleteAll()" icon="md-trash" type="error">批量删除</Button> &nbsp;&nbsp;&nbsp;
+    <Button @click="deleteSome()" icon="md-trash" type="error">批量删除</Button> &nbsp;&nbsp;&nbsp;
     <Button @click="add()" icon="md-add" type="primary">添加资讯</Button>
 
     <div style="height: 20px;"></div>
 
-    <Table border ref="selection" :columns="columns4" :data="data1">
+    <Table border ref="selection" @on-selection-change="changeSelect" :columns="columns4" :data="data1">
       <template slot-scope="{ row }" slot="name">
         <strong>{{ row.name }}</strong>
       </template>
       <template slot-scope="{ row, index }" slot="action">
-        <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">View</Button>
-        <Button type="error" size="small" @click="remove(index)">Delete</Button>
+        <a>推荐到首页</a> &nbsp;
+        <a>置顶</a> &nbsp;
+        <Button size="small" icon="md-create" style="margin-right: 5px" @click="show(index)"></Button>
+        <Button size="small" icon="md-trash" @click="remove(index)"></Button>
       </template>
 
     </Table>
@@ -19,11 +21,11 @@
     <div style="height: 20px;"></div>
 
 
-    <Page :total="total" @on-change="changePage"/>
+    <Page :total="total" @on-change="changePage" show-sizer page-size="size" @on-page-size-change="sizeChange"/>
   </div>
 </template>
 <script>
-  import {listPage} from "../../api/new";
+  import {deleteInformation, listPage} from "../../api/new";
 
   export default {
     data() {
@@ -53,12 +55,13 @@
             key: 'browseFrequency'
           }, {
             title: '发布状态',
-            key: 'status'
+            key: 'status',
+            width: 100
           },
           {
+            width: 250,
             title: '操作',
             slot: 'action',
-            width: 150,
             align: 'center'
           }
 
@@ -72,6 +75,8 @@
         startTime: 0,
         endTime: new Date().valueOf(),
         total: 100,
+
+        selected: [],
       }
     },
     mounted() {
@@ -97,8 +102,25 @@
         this.getlist()
       },
 
+      sizeChange(e) {
+        console.log(e);
+        this.size = e;
+        this.getlist()
+      },
+
       deleteAll(){
 
+      },
+
+      changeSelect(e) {
+        console.log('选', e);
+        this.selected = e.map(item => item.id)
+      },
+
+      async deleteSome() {
+        let res = await deleteInformation(this.selected.join(',') + ',')
+        console.log('删除选中', res);
+        window.location.reload()
       },
 
       add(){

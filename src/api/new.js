@@ -42,7 +42,7 @@ export const deleteInformation = id => {
    id
   };
   return axios.request({
-    url: 'information/listPage',
+    url: 'information/deleteInformation',
     params,
     method: 'get'
   })
