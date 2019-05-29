@@ -180,32 +180,34 @@ export default [
     component: Main,
     children: [
       {
-        path: '1',
+        path: '0',
         name: '1',
         meta: {
           title: '招考政策',
-          icon: 'logo-buffer'
+          icon: 'logo-buffer',
         },
         component: () => import('@/view/new/1.vue')
       },
       {
-        path: '2',
+        path: '1',
         name: '2',
         meta: {
           title: '高校动态',
           icon: 'md-videocam'
         },
-        component: () => import('@/view/course/course-list.vue')
+        component: () => import('@/view/new/1.vue')
+
       },
       {
-        path: '3',
+        path: '2',
         name: '3',
         meta: {
           title: '志愿指南',
           icon: 'md-videocam'
         },
-        component: () => import('@/view/course/course-list.vue')
-      },{
+        component: () => import('@/view/new/1.vue')
+      },
+      {
         path: '4',
         name: '4',
         meta: {

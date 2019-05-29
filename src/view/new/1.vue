@@ -80,16 +80,20 @@
       }
     },
     mounted() {
-      this.getlist()
+      const type = this.$route.path.slice(-1);
+      this.type = type
+      this.getlist(type);
     },
     methods: {
       handleSelectAll(status) {
         this.$refs.selection.selectAll(status);
       },
 
-      async getlist() {
+      async getlist(type) {
+        type = this.type || type;
+        console.log(this.$route.name);
         const {current, size, title, startTime, endTime} = this;
-        let res = await listPage(current, size, title, startTime, endTime);
+        let res = await listPage(current, size, title, startTime, endTime, type);
         this.data1 = res.data.records
         this.current = res.data.current;
         this.total = res.data.total;
@@ -160,10 +164,16 @@
       },
 
       add(){
-        this.$router.push({path: '/dd/d/4'})
-      }
+        this.$router.push({path: '/dd/d/4', query:{type: this.type}})
+      },
     },
-
-
+    watch: {
+      '$route.path': function (newVal, oldVal) {
+        console.log(newVal, oldVal);
+        const type = newVal.slice(-1);
+        this.type = type;
+        this.getlist(type);
+      }
+    }
   }
 </script>

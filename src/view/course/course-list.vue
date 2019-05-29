@@ -23,6 +23,7 @@
                 <Select v-model="queryParam.status" clearable placeholder="全部">
                   <Option value="enabled">启用</Option>
                   <Option value="disabled">禁用</Option>
+                  <Option value="disabled">禁用</Option>
                 </Select>
               </Form-item>
             </Col>

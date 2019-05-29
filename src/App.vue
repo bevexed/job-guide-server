@@ -6,7 +6,13 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  // watch:{
+  //   '$route.path':function(newVal,oldVal){
+  //     console.log(newVal, oldVal);
+  //     localStorage.path = newVal;
+  //   }
+  // }
 }
 </script>
 

@@ -19,10 +19,10 @@ import axios from '@/libs/api.request'
 export const addInformation = (type, title, source, articleContent, isHome, isTop, thumbnail) => {
   return axios.request({
     url: 'information/addInformation',
-    params: {
+    data: {
       type, title, source, articleContent, isHome, isTop, thumbnail
     },
-    method: 'get'
+    method: 'POST'
   });
 };
 
@@ -107,7 +107,7 @@ export const updateIsHome = id => axios.request({
 export const updateInformation = (id, type, title, source, articleContent, isHome, isTop, thumbnail, status) => {
   return axios.request({
     url: 'information/updateInformation',
-    params: {
+    data: {
       id, type, title, source, articleContent, isHome, isTop, thumbnail, status
     },
     method: 'POST'
@@ -142,9 +142,9 @@ export const findInformationById = id => axios.request({
 // endTime--结束时间
 //
 
-export const listPage = (current, size, title, startTime, endTime) => {
+export const listPage = (current, size, title, startTime, endTime,type) => {
   const params = {
-    current, size, title, startTime, endTime
+    current, size, title, startTime, endTime,type
   };
   return axios.request({
     url: 'information/listPage',
@@ -163,7 +163,11 @@ export const listPage = (current, size, title, startTime, endTime) => {
 //
 // 例子:http://localhost:9091/course/isRecommend?id=266&isRecommend=false
 
-
+export const isRecommend = id => axios.request({
+  url: 'course/isRecommend',
+  params:{id},
+  method:'GET'
+});
 
 
 

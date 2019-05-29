@@ -3,13 +3,13 @@
     <FormItem label="文章标题" prop="title">
       <Input v-model="formValidate.title" placeholder=""></Input>
     </FormItem>
-    <FormItem label="分类栏目" prop="type">
-      <Select v-model="formValidate.type" placeholder="全部栏目">
-        <Option value="0">招考政策</Option>
-        <Option value="1">高校动态</Option>
-        <Option value="2">志愿指南</Option>
-      </Select>
-    </FormItem>
+    <!--    <FormItem label="分类栏目" prop="type">-->
+    <!--      <Select v-model="formValidate.type" placeholder="全部栏目">-->
+    <!--        <Option value="0">招考政策</Option>-->
+    <!--        <Option value="1">高校动态</Option>-->
+    <!--        <Option value="2">志愿指南</Option>-->
+    <!--      </Select>-->
+    <!--    </FormItem>-->
 
     <FormItem label="文章来源" prop="source">
       <Input v-model="formValidate.source" placeholder="填写文章来源"></Input>
@@ -69,7 +69,7 @@
           // some quill options
         },
 
-        thumbnail: {},
+        thumbnail: '',
 
         formValidate: {
           title: '',
@@ -103,7 +103,10 @@
       }
     },
     mounted() {
-      console.log('this is current quill instance object', this.editor)
+      if (this.$route.query.type) {
+        this.type = this.$route.query.type;
+      }
+      console.log('this is current quill instance object', this.editor);
       this.dofindInformationById()
     },
 
@@ -111,9 +114,10 @@
 
       async dofindInformationById() {
         console.log(this.$route.query);
+        if (!this.$route.query.id) {return }
         let res = await findInformationById(this.$route.query.id);
         if (res.code === 200) {
-          this.thumbnail = res.data.thumbnail;
+          this.thumbnail = res.data.thumbnail || '';
           this.imageFile = res.data.thumbnail;
           this.formValidate = res.data;
           this.articleContent = res.data.articleContent
