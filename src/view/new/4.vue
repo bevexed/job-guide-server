@@ -15,9 +15,17 @@
       <Input v-model="formValidate.source" placeholder="填写文章来源"></Input>
     </FormItem>
 
-    <FormItem label="缩略图">
-      <input type="file" @change="chooseimg">
-    </FormItem>
+    <!--    <FormItem label="缩略图">-->
+    <!--      <input type="file" @change="chooseimg">-->
+    <!--    </FormItem>-->
+    <Form-item label="缩略图" prop="thumbnail">
+      <image-upload ref="imageUpload"
+                    :default-file="imageFile"
+                    file-category="banner"
+                    @on-file-change="handleImageChange"
+                    :num="1"/>
+    </Form-item>
+
 
     <quill-editor v-model="articleContent"
                   style="margin: 20px"
@@ -38,20 +46,25 @@
 
 
     <div style="margin: 20px">
-      <Button type="primary" @click="handleSubmit('formValidate')">发布</Button>
-      <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
+      <Button type="success" style="margin-left: 8px" @click="handleSubmit('formValidate',1)">发布</Button>
+      <Button type="primary" style="margin-left: 8px" @click="doupdateInformation('formValidate',0)">保存草稿</Button>
+      <!--      <Button type="warning" style="margin-left: 8px" @click="handleSubmit('formValidate')">效果预览</Button>-->
+      <Button type="error" style="margin-left: 8px" @click="$router.go(-1)">取消</Button>
+      <!--      <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>-->
     </div>
   </Form>
 </template>
 <script>
-  import {addInformation} from "../../api/new";
+  import {addInformation, findInformationById, updateInformation} from "../../api/new";
+  import ImageUpload from '_c/common/image-upload'
 
   export default {
+    components: {ImageUpload},
     data() {
       return {
-
+        imageFile: null,
         articleContent: '',
-
+        param: {},
         editorOption: {
           // some quill options
         },
@@ -63,8 +76,10 @@
           type: '',
           source: '',
           isHome: false,
-          isTop: false
+          isTop: false,
 
+
+          status: 0
 
         },
         ruleValidate: {
@@ -89,9 +104,24 @@
     },
     mounted() {
       console.log('this is current quill instance object', this.editor)
+      this.dofindInformationById()
     },
 
     methods: {
+
+      async dofindInformationById() {
+        console.log(this.$route.query);
+        let res = await findInformationById(this.$route.query.id);
+        if (res.code === 200) {
+          this.thumbnail = res.data.thumbnail;
+          this.imageFile = res.data.thumbnail;
+          this.formValidate = res.data;
+          this.articleContent = res.data.articleContent
+
+          console.log('onload', this);
+          // this.$Message.success(res.message);
+        }
+      },
       onEditorBlur(quill) {
         console.log('editor blur!', quill)
       },
@@ -105,19 +135,42 @@
         console.log('editor change!', quill, html, text)
         this.content = html
       },
-      async handleSubmit(name) {
+      handleImageChange(file) {
+        console.log('filePath', file);
+        this.param.thumbnail = file && file.fileKey;
+        this.thumbnail = file.fileUrl;
+      },
+
+      async handleSubmit(name, status) {
+        console.log(this);
+        if (this.$route.query.id) {
+          this.doupdateInformation(name, status);
+          return
+        }
+
+        this.$refs[name].validate(async (valid) => {
+          if (valid) {
+            const {title, type, source, isHome, isTop} = this.formValidate;
+            const {articleContent, thumbnail} = this;
+            let res = await addInformation(type, title, source, articleContent, isHome, isTop, thumbnail);
+            console.log(res);
+
+            this.$Message.success('操作成功');
+          } else {
+            this.$Message.error('Fail!');
+          }
+        })
+      },
+
+
+      async doupdateInformation(name, status) {
+        this.status = status;
         console.log(this);
         this.$refs[name].validate(async (valid) => {
           if (valid) {
-            const {
-              title,
-              type,
-              source,
-              isHome,
-              isTop
-            } = this.formValidate;
-            const {articleContent, thumbnail} = this;
-            let res = await addInformation(type, title, source, articleContent, isHome, isTop, thumbnail);
+            const {title, type, source, isHome, isTop} = this.formValidate;
+            const {articleContent, thumbnail, status} = this;
+            let res = await updateInformation(this.$route.query.id, type, title, source, articleContent, isHome, isTop, thumbnail, status);
             console.log(res);
 
             this.$Message.success('Success!');

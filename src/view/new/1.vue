@@ -21,11 +21,11 @@
     <div style="height: 20px;"></div>
 
 
-    <Page :total="total" @on-change="changePage" show-sizer page-size="size" @on-page-size-change="sizeChange"/>
+    <Page :total="total" @on-change="changePage" show-sizer :page-size="size" @on-page-size-change="sizeChange"/>
   </div>
 </template>
 <script>
-  import {deleteInformation, deleteOne, findInformationById, listPage, updateIsHome, updateIsTop} from "../../api/new";
+  import {deleteInformation, deleteOne, listPage, updateIsHome, updateIsTop} from "../../api/new";
 
   export default {
     data() {
@@ -71,7 +71,7 @@
 
         current: 0,
         size: 10,
-        title: '',
+        title: null,
         startTime: 0,
         endTime: new Date().valueOf(),
         total: 100,
@@ -91,14 +91,14 @@
         const {current, size, title, startTime, endTime} = this;
         let res = await listPage(current, size, title, startTime, endTime);
         this.data1 = res.data.records
-        this.page = res.data.current;
-        this.total = res.data.pages
+        this.current = res.data.current;
+        this.total = res.data.total;
         console.log('list', res);
       },
 
       changePage(e) {
         console.log(e);
-        this.page = e;
+        this.current = e;
         this.getlist()
       },
 
@@ -151,15 +151,16 @@
       },
 
       async dofindInformationById(row) {
-        console.log(row.id);
-        let res = await findInformationById(row.id);
-        if (res.code === 200) {
-          this.$Message.success(res.message);
-        }
+        this.$router.push({path: '/dd/d/4', query: {id: row.id}})
+        // console.log(row.id);
+        // let res = await findInformationById(row.id);
+        // if (res.code === 200) {
+        //   this.$Message.success(res.message);
+        // }
       },
 
       add(){
-
+        this.$router.push({path: '/dd/d/4'})
       }
     },
 

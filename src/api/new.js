@@ -95,7 +95,7 @@ export const updateIsHome = id => axios.request({
 // http://localhost:9091/information/updateInformation
 //   请求方式:POST
 // 参数:
-//   id--主键id                                                              必填
+// id--主键id                                                              必填
 // type--类型(0:招考政策 1:高校动态 2:志愿指南)           必填
 // title--标题
 // isHome--是否推荐到首页（0：否，1：是）
@@ -104,6 +104,15 @@ export const updateIsHome = id => axios.request({
 // thumbnail--缩略图
 // articleContent--文章内容
 // status--状态(0:草稿  1:已发布)
+export const updateInformation = (id, type, title, source, articleContent, isHome, isTop, thumbnail, status) => {
+  return axios.request({
+    url: 'information/updateInformation',
+    params: {
+      id, type, title, source, articleContent, isHome, isTop, thumbnail, status
+    },
+    method: 'POST'
+  });
+};
 
 
 //
