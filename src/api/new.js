@@ -20,7 +20,7 @@ export const addInformation = (type, title, source, articleContent, isHome, isTo
   return axios.request({
     url: 'information/addInformation',
     params: {
-      type: 1, title, source, articleContent, isHome, isTop, thumbnail
+      type, title, source, articleContent, isHome, isTop, thumbnail
     },
     method: 'get'
   });
