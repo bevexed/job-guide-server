@@ -13,7 +13,6 @@ import axios from '@/libs/api.request'
 // isHome--是否推荐到首页（0：否，1：是）
 // isTop--是否置顶（0：否，1：是）
 // thumbnail--缩略图
-//
 
 
 export const addInformation = (type, title, source, articleContent, isHome, isTop, thumbnail) => {
@@ -135,7 +134,7 @@ export const findInformationById = id => axios.request({
 // http://localhost:9091/information/listPage
 //   请求方式:POST
 // 参数:
-//   current--页码                                                        必填
+// current--页码                                                        必填
 // size--每页大小                                                       必填
 // title--标题
 // startTime--开始时间

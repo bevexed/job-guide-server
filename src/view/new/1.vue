@@ -1,7 +1,21 @@
 <template>
   <div>
     <Button @click="deleteSome()" icon="md-trash" type="error">批量删除</Button> &nbsp;&nbsp;&nbsp;
-    <Button @click="add()" icon="md-add" type="primary">添加资讯</Button>
+    <Button @click="add()" icon="md-add" type="primary" style="margin-right: 100px">添加资讯</Button>
+
+    <Select v-model="type" style="width: 100px;margin-right: 5px" placeholder="全部栏目">
+      <Option value="0">招考政策</Option>
+      <Option value="1">高校动态</Option>
+      <Option value="2">志愿指南</Option>
+    </Select>
+
+    日期范围：
+    <DatePicker type="date" @on-change="startTimeChange" placeholder="开始时间" style="width: 200px;margin-right: 5px"></DatePicker>
+    <DatePicker type="date" @on-change="endTimeChange" placeholder="结束时间" style="width: 200px;margin-right: 5px"></DatePicker>
+
+
+    <Input v-model="title" placeholder="标题" style="width: 300px"/>
+    <Button @click="getlist()" style="margin-left: 20px" type="success">搜咨询</Button> &nbsp;&nbsp;&nbsp;
 
     <div style="height: 20px;"></div>
 
@@ -80,7 +94,7 @@
         size: 10,
         title: null,
         startTime: 0,
-        endTime: new Date().valueOf(),
+        endTime: 0,
         total: 100,
 
         selected: [],
@@ -122,6 +136,17 @@
       deleteAll(){
 
       },
+
+      startTimeChange(data, a) {
+        console.log(data, a);
+        console.log(new Date(data).valueOf());
+        this.startTime = new Date(data).valueOf()
+      },
+      endTimeChange(data, a) {
+        console.log(data, a);
+        this.endTime = new Date(data).valueOf()
+      },
+
 
       changeSelect(e) {
         console.log('选', e);
