@@ -6,7 +6,7 @@ import axios from '@/libs/api.request'
 // http://localhost:9091/information/addInformation
 //   请求方式:GET
 // 参数:
-//   type--类型(0:招考政策 1:高校动态 2:志愿指南)           必填
+// type--类型(0:招考政策 1:高校动态 2:志愿指南)           必填
 // title--标题                                                              必填
 // source--来源                                                          必填
 // articleContent--文章内容                                        必填
@@ -104,7 +104,8 @@ export const updateIsHome = id => axios.request({
 // thumbnail--缩略图
 // articleContent--文章内容
 // status--状态(0:草稿  1:已发布)
-//
+
+
 //
 // 7.根据主键id显示资讯信息
 // http://localhost:9091/information/findInformationById
@@ -113,6 +114,12 @@ export const updateIsHome = id => axios.request({
 //   id--主键id                                                              必填
 //
 //
+
+export const findInformationById = id => axios.request({
+  url: 'information/findInformationById',
+  params:{id},
+  method:'GET'
+});
 
 
 // 8.分页列表

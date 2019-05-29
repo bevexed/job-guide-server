@@ -205,6 +205,14 @@ export default [
           icon: 'md-videocam'
         },
         component: () => import('@/view/course/course-list.vue')
+      },{
+        path: '4',
+        name: '4',
+        meta: {
+          title: '添加资讯',
+          icon: 'md-videocam'
+        },
+        component: () => import('@/view/new/4.vue')
       }
     ]
   },

@@ -12,7 +12,7 @@
       <template slot-scope="{ row, index }" slot="action">
         <a @click="doupdateIsHome(row)">推荐到首页</a> &nbsp;
         <a @click="doupdateIsTop(row)">置顶</a> &nbsp;
-        <Button size="small" icon="md-create" style="margin-right: 5px" @click="show(row)"></Button>
+        <Button size="small" icon="md-create" style="margin-right: 5px" @click="dofindInformationById(row)"></Button>
         <Button size="small" icon="md-trash" @click="doDeleteOne(row)"></Button>
       </template>
 
@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-  import {deleteInformation, deleteOne, listPage,updateIsTop,updateIsHome} from "../../api/new";
+  import {deleteInformation, deleteOne, findInformationById, listPage, updateIsHome, updateIsTop} from "../../api/new";
 
   export default {
     data() {
@@ -145,6 +145,14 @@
       async doupdateIsHome(row) {
         console.log(row.id);
         let res = await updateIsHome(row.id);
+        if (res.code === 200) {
+          this.$Message.success(res.message);
+        }
+      },
+
+      async dofindInformationById(row) {
+        console.log(row.id);
+        let res = await findInformationById(row.id);
         if (res.code === 200) {
           this.$Message.success(res.message);
         }
