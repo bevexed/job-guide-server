@@ -10,8 +10,11 @@
     </Select>
 
     日期范围：
-    <DatePicker type="date" @on-change="startTimeChange" placeholder="开始时间" style="width: 200px;margin-right: 5px"></DatePicker>
-    <DatePicker type="date" @on-change="endTimeChange" placeholder="结束时间" style="width: 200px;margin-right: 5px"></DatePicker>
+        <DatePicker type="date" @on-change="startTimeChange" placeholder="开始时间" style="width: 200px;margin-right: 5px"></DatePicker>
+        <DatePicker type="date" @on-change="endTimeChange" placeholder="结束时间" style="width: 200px;margin-right: 5px"></DatePicker>
+
+    <!--    <DatePicker type="datetime" v-model="startTime"  placeholder="开始时间" style="width: 200px;margin-right: 5px"></DatePicker>-->
+    <!--    <DatePicker type="datetime" v-model="endTime" format="datetime | yyyy-MM-dd HH:mm:ss" placeholder="结束时间" style="width: 200px;margin-right: 5px"></DatePicker>-->
 
 
     <Input v-model="title" placeholder="标题" style="width: 300px"/>
@@ -94,7 +97,7 @@
         size: 10,
         title: null,
         startTime: 0,
-        endTime: 0,
+        endTime: 2099-12-12,
         total: 100,
 
         selected: [],
@@ -139,12 +142,14 @@
 
       startTimeChange(data, a) {
         console.log(data, a);
-        console.log(new Date(data).valueOf());
-        this.startTime = new Date(data).valueOf()
+        this.startTime = data
+        // console.log(new Date(data).valueOf());
+        // this.startTime = new Date(data).valueOf()
       },
       endTimeChange(data, a) {
         console.log(data, a);
-        this.endTime = new Date(data).valueOf()
+        this.endTime = data;
+        // this.endTime = new Date(data).valueOf()
       },
 
 
