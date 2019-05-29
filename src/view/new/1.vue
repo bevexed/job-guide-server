@@ -42,11 +42,15 @@
           },
           {
             title: '分类',
-            key: 'type'
+            key: 'type',
+            render: (h, { row }) => {
+              return h('span', row.type===0 ?'招考资讯': row.type===1 ? '高校动态' : '志愿指南')
+            }
           },
           {
             title: '来源',
-            key: 'source'
+            key: 'source',
+
           }, {
             title: '更新时间',
             key: 'gmtModified'
@@ -56,7 +60,10 @@
           }, {
             title: '发布状态',
             key: 'status',
-            width: 100
+            width: 100,
+            render: (h, { row }) => {
+              return h('span', row.status === 1 ? '已发布' : '草稿')
+            }
           },
           {
             width: 250,

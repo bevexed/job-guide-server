@@ -103,8 +103,10 @@
       }
     },
     mounted() {
-      if (this.$route.query.type) {
-        this.type = this.$route.query.type;
+      console.log(this.$route.query.type);
+      console.log(this.$route.query.type === '0');
+      if (this.$route.query.type || this.$route.query.type === '0') {
+        this.formValidate.type = this.$route.query.type;
       }
       console.log('this is current quill instance object', this.editor);
       this.dofindInformationById()
@@ -155,6 +157,7 @@
         this.$refs[name].validate(async (valid) => {
           if (valid) {
             const {title, type, source, isHome, isTop} = this.formValidate;
+            console.log('add', type);
             const {articleContent, thumbnail} = this;
             let res = await addInformation(type, title, source, articleContent, isHome, isTop, thumbnail);
             console.log(res);
