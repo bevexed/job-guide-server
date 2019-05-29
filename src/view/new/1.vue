@@ -12,8 +12,8 @@
       <template slot-scope="{ row, index }" slot="action">
         <a>推荐到首页</a> &nbsp;
         <a>置顶</a> &nbsp;
-        <Button size="small" icon="md-create" style="margin-right: 5px" @click="show(index)"></Button>
-        <Button size="small" icon="md-trash" @click="remove(index)"></Button>
+        <Button size="small" icon="md-create" style="margin-right: 5px" @click="show(row)"></Button>
+        <Button size="small" icon="md-trash" @click="doDeleteOne(row)"></Button>
       </template>
 
     </Table>
@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-  import {deleteInformation, listPage} from "../../api/new";
+  import {deleteInformation, deleteOne, listPage} from "../../api/new";
 
   export default {
     data() {
@@ -118,9 +118,20 @@
       },
 
       async deleteSome() {
+        if (!this.selected.length) {return }
         let res = await deleteInformation(this.selected.join(',') + ',')
         console.log('删除选中', res);
-        window.location.reload()
+        if (res.code === 200) {
+          window.location.reload()
+        }
+      },
+
+      async doDeleteOne(row) {
+        console.log(row.id);
+        let res = await deleteOne(row.id);
+        if (res.code === 200) {
+          window.location.reload()
+        }
       },
 
       add(){

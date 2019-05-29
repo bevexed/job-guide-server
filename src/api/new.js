@@ -55,7 +55,13 @@ export const deleteInformation = id => {
 //   请求方式:GET
 // 参数:
 //   id--主键id                                                              必填
-//
+
+export const deleteOne = id => axios.request({
+  url: 'information/del',
+  params:{id},
+  method:'GET'
+});
+
 //
 // 4.置顶接口
 // http://localhost:9091/information/updateIsTop
