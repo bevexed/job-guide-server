@@ -211,8 +211,13 @@ export const del = id => axios.request({
 //   id--主键id                                                               必填
 // modularConfig--模块类型                                       必填
 // imageUrl--图片地址                                                必填
-// link--跳转地址
-//
+// link--跳转
+
+export const updateAdvertisement = (id, modularConfig, imageUrl, link) => axios.request({
+  url: 'advertisement/updateAdvertisement',
+  data: {id, modularConfig, imageUrl, link},
+  method: 'POST'
+});
 
 
 // 13.根据主键id显示广告信息
@@ -222,6 +227,12 @@ export const del = id => axios.request({
 //   id--主键id                                                               必填
 //
 
+export const findAdvertisementById = id => axios.request({
+  url: 'advertisement/findAdvertisementById',
+  params: {id},
+  method: 'GET'
+});
+
 
 // 14.广告分页列表
 // http://47.111.12.191:9091/advertisement/listPage
@@ -229,6 +240,8 @@ export const del = id => axios.request({
 // 参数:
 //   current--页码                                                         必填
 // size--每页大小    必填
+// modularConfig--模块类型                                       必填
+
 
 export const listPages = (current, size) => axios.request({
   url: 'advertisement/listPage',

@@ -111,6 +111,7 @@
           })
         })
       },
+
       queryCourse(query) {
         if (query !== '') {
           this.loadingQueryCourse = true
@@ -124,6 +125,7 @@
           this.courseList = []
         }
       },
+
       handleCourseChange(val) {
         let course = this.getCourse(val)
         if (course) {
@@ -133,11 +135,13 @@
           this.imageFile = {fileKey: course.cover, fileUrl: course.coverUrl}
         }
       },
+
       handleImageChange(file) {
         console.log('file', file);
         this.param.image = file && file.fileKey
         this.imageUrl = file.fileUrl;
       },
+
       getCourse(id) {
         let arr = this.courseList
         for (let i = 0; i < arr.length; i++) {

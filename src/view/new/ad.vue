@@ -13,7 +13,7 @@
           <Row :gutter="10">
             <Col :xs="12" :sm="8" :md="6">
               <Form-item label="模块" prop="moduleCode">
-                <Select v-model="queryParam.moduleCode" clearable placeholder="全部">
+                <Select v-model="queryParam.modularConfig" clearable placeholder="全部">
                   <Option value="homehot">首页热门视频</Option>
                   <Option value="homedevelop">首页职业发展</Option>
                   <Option value="homeprofession">首页热门岗位</Option>
@@ -21,28 +21,10 @@
                   <Option value="develop">发展之路</Option>
                   <Option value="profession">职业菜单</Option>
 
-                  <!--                  <Option value="profession_banner">职业菜单Banner</Option>-->
-                  <!--                  <Option value="mobile_home_page_banner">移动端首页Banner</Option>-->
-                  <!--                  <Option value="mobile_develop_banner">移动端发展之路Banner</Option>-->
-                  <!--                  <Option value="mobile_profession_banner">移动端职业菜单Banner</Option>-->
-                  <!--                  <Option value="home_page_zhixun">高考咨询Banner</Option>-->
-                </Select>
+                 </Select>
               </Form-item>
             </Col>
-            <!--            <Col :xs="12" :sm="8" :md="6">-->
-            <!--              <Form-item label="标题" prop="title">-->
-            <!--                <Input placeholder="支持模糊搜索" name="title" v-model="queryParam.title"></Input>-->
-            <!--              </Form-item>-->
-            <!--            </Col>-->
-            <!--            <Col :xs="12" :sm="8" :md="6">-->
-            <!--              <Form-item label="状态" prop="status" :label-width="50">-->
-            <!--                <Select v-model="queryParam.status" clearable placeholder="全部">-->
-            <!--                  <Option value="enabled">启用</Option>-->
-            <!--                  <Option value="disabled">禁用</Option>-->
-            <!--                </Select>-->
-            <!--              </Form-item>-->
-            <!--            </Col>-->
-            <Col :xs="12" :sm="8" :md="6">
+           <Col :xs="12" :sm="8" :md="6">
               <Button type="primary" :loading="searchLoading" :disable="searchLoading" icon="md-search"
                       @click="search">搜索
               </Button>
@@ -99,7 +81,14 @@
             width: 400,
             key: 'modularConfig',
             render: (h, {row}) => {
-              return h('span', row.modularConfig === 'homehot' ? '首页热门视频' : row.modularConfig === 'develop' ? '发展之路' : '')
+              return h('span',
+                row.modularConfig === 'homehot' ? '首页热门视频'
+                  : row.modularConfig === 'homedevelop' ? '首页职业发展'
+                  : row.modularConfig === 'homeprofession' ? '首页热门岗位'
+                  : row.modularConfig === 'homezixun' ? '首页高考资讯'
+                  : row.modularConfig === 'develop' ? '发展之路'
+                  : row.modularConfig === 'profession' ? '职业菜单'
+                  : '')
             }
           },
           {
@@ -192,6 +181,7 @@
 
       search() {
         this.reload = new Date().getTime()
+
       },
       onUpdateCourseCategory(row) {
         this.showCourseCategoryUpdateModal = true

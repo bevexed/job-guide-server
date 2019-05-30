@@ -4,8 +4,8 @@
         :model="param" :rules="rule" >
       <Row>
         <Col :span="11" >
-          <Form-item label="模块" prop="moduleCode">
-            <Select v-model="param.moduleCode" disabled>
+          <Form-item label="模块" prop="modularConfig">
+            <Select v-model="param.modularConfig" disabled>
               <Option value="homehot">首页热门视频</Option>
               <Option value="homedevelop">首页职业发展</Option>
               <Option value="homeprofession">首页热门岗位</Option>
@@ -15,11 +15,7 @@
             </Select>
           </Form-item>
         </Col>
-        <Col :span="11" >
-          <Form-item label="排序号" prop="sortNo">
-            <Input type="number" v-model.number="param.sortNo"  />
-          </Form-item>
-        </Col>
+
       </Row>
       <Row>
         <Col :span="22" >
@@ -30,7 +26,7 @@
 
 
         <Col :span="22" >
-          <Form-item label="图片" prop="image">
+          <Form-item label="图片" prop="imageUrl">
             <image-upload ref="imageUpload"
               :default-file="imageFile" file-category="banner"
               @on-file-change="handleImageChange" :num="1" />
@@ -45,14 +41,18 @@
   </Modal>
 </template>
 <script>
-import ImageUpload from '_c/common/image-upload'
-import { mapActions } from 'vuex'
-import axios from '@/libs/api.request'
+  import ImageUpload from '_c/common/image-upload'
+  import {mapActions} from 'vuex'
+  import axios from '@/libs/api.request'
+  import {findAdvertisementById, updateAdvertisement} from "../../api/new";
 
-export default {
+  export default {
   name: 'page-module-config-update-modal',
   components: { ImageUpload },
   props: {
+    id: {
+      type: Number
+    },
     value: {
       type: Boolean,
       default: false
@@ -73,24 +73,15 @@ export default {
       imageFile: null,
       courseList: [],
       rule: {
-        moduleCode: [
+        modularConfig: [
           { type: 'string', required: true, message: '请选择模块', trigger: 'blur' }
-        ],
-        sortNo: [
-          { type: 'number', required: true, message: '排序号不能为空', trigger: 'blur' }
-        ],
-        title: [
-          { type: 'string', required: true, message: '标题不能为空', trigger: 'blur' },
-          { type: 'string', min: 2, max: 30, message: '标题应为2-30个字', trigger: 'blur' }
-        ],
-        intro: [
-          { type: 'string', required: true, message: '介绍不能为空', trigger: 'blur' },
-          { type: 'string', max: 120, message: '介绍不能超过120个字', trigger: 'blur' }
         ],
         image: [
           { type: 'string', required: true, message: '请上传图片', trigger: 'blur' }
         ]
-      }
+      },
+
+      imageUrl: '',
     }
   },
   created: function () {
@@ -107,7 +98,7 @@ export default {
           this.loadingUpdate = false
           return
         }
-        this.pageModuleConfigUpdate(this.param).then(data => {
+        updateAdvertisement(this.id, this.param.moduleCode, this.imageUrl, this.param.link).then(data => {
           this.visible = false
           this.$Message.success('保存成功!')
           this.updateCallback()
@@ -139,16 +130,20 @@ export default {
         this.imageFile = { fileKey: course.cover, fileUrl: course.coverUrl }
       }
     },
-    handleImageChange (file) {
+    handleImageChange(file) {
+      console.log('file', file);
       this.param.image = file && file.fileKey
+      this.imageUrl = file.fileUrl;
     },
     loadConfig () {
       let loadMsg = this.$Message.loading('正在加载中...', 0)
       let configId = this.configId
-      this.getPageModuleConfigById({ pageModuleConfigId: configId }).then(data => {
+      findAdvertisementById(configId).then(data => {
+        console.log('find', data);
+
         loadMsg()
-        this.param = data
-        this.imageFile = { fileKey: data.image, fileUrl: data.imageUrl }
+        this.param = data.data
+        this.imageFile = { fileKey: data.data.image, fileUrl: data.data.imageUrl }
         this.visible = true
       })
     },
