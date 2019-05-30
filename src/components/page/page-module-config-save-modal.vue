@@ -15,6 +15,7 @@
               <Option value="mobile_home_page_banner">移动端首页Banner</Option>
               <Option value="mobile_develop_banner">移动端发展之路Banner</Option>
               <Option value="mobile_profession_banner">移动端职业菜单Banner</Option>
+              <Option value="home_page_zhixun">高考咨询Banner</Option>
             </Select>
           </Form-item>
         </Col>
