@@ -169,7 +169,72 @@ export const isRecommend = (id,isRecommend) => axios.request({
 });
 
 
+// 10.新增广告
+// http://47.111.12.191:9091/advertisement/addAdvertisement
+//   请求方式:POST
+// 参数:
+//   modularConfig--模块类型                                       必填
+// (首页热门视频:homehot
+// 首页职业发展:homedevelop
+// 首页热门岗位:homeprofession
+// 首页高考资讯:homezixun
+// 发展之路:develop
+// 职业菜单:profession)
+// imageUrl--图片地址                                                必填
+// link--跳转地址
+//
 
+export const addAdvertisement = (modularConfig, imageUrl, link) => axios.request({
+  url: 'advertisement/addAdvertisement',
+  data: {modularConfig, imageUrl, link},
+  method: 'POST'
+});
+
+
+// 11.删除广告
+// http://47.111.12.191:9091/advertisement/del
+//   请求方式:GET
+// 参数:
+//   id--主键id                                                              必填
+//
+
+export const del = id => axios.request({
+  url: 'advertisement/del',
+  params: {id},
+  method: 'GET'
+});
+
+// 12.编辑广告
+// http://47.111.12.191:9091/advertisement/updateAdvertisement
+//   请求方式:POST
+// 参数:
+//   id--主键id                                                               必填
+// modularConfig--模块类型                                       必填
+// imageUrl--图片地址                                                必填
+// link--跳转地址
+//
+
+
+// 13.根据主键id显示广告信息
+// http://47.111.12.191:9091/advertisement/findAdvertisementById
+//   请求方式:GET
+// 参数:
+//   id--主键id                                                               必填
+//
+
+
+// 14.广告分页列表
+// http://47.111.12.191:9091/advertisement/listPage
+//   请求方式:POST
+// 参数:
+//   current--页码                                                         必填
+// size--每页大小    必填
+
+export const listPages = (current, size) => axios.request({
+  url: 'advertisement/listPage',
+  data: {current, size},
+  method: 'POST'
+});
 
 
 

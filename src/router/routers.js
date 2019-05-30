@@ -219,6 +219,26 @@ export default [
     ]
   },
 
+  {
+    path: '/5',
+    name: '5',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'ad',
+        name: 'ad',
+        meta: {
+          title: '广告',
+          icon: 'md-list'
+        },
+        component: () => import('@/view/new/ad.vue')
+      }
+    ]
+  },
+
 
   {
     path: '/system/param',
